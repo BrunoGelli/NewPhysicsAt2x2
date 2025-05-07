@@ -1,0 +1,8 @@
+/home/bruno/geant4/codigos/2x2/build/CMakeFiles/install/strip.dir
+/home/bruno/geant4/codigos/2x2/build/CMakeFiles/G4Sim.dir
+/home/bruno/geant4/codigos/2x2/build/CMakeFiles/install/local.dir
+/home/bruno/geant4/codigos/2x2/build/CMakeFiles/g4Sim.dir
+/home/bruno/geant4/codigos/2x2/build/CMakeFiles/rebuild_cache.dir
+/home/bruno/geant4/codigos/2x2/build/CMakeFiles/edit_cache.dir
+/home/bruno/geant4/codigos/2x2/build/CMakeFiles/list_install_components.dir
+/home/bruno/geant4/codigos/2x2/build/CMakeFiles/install.dir
