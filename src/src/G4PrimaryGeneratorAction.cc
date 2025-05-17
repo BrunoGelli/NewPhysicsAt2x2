@@ -38,7 +38,7 @@ void G4PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent) {
     
     static const double pi  = 3.14159265358979323846;
 
-    particleGun->SetParticleEnergy(1*GeV);
+    particleGun->SetParticleEnergy(5*GeV);
     
     particleGun->SetParticleMomentumDirection(G4ThreeVector(0,0,-1));
     particleGun->SetParticlePosition(G4ThreeVector(7.5*cm,7.5*cm,0.8*m));

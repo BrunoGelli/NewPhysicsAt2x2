@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------
 # Setup the project
 #
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10)
 project(G4Sim)
 
 #----------------------------------------------------------------------------
@@ -22,6 +22,7 @@ endif()
 #
 include(${Geant4_USE_FILE})
 include_directories(${PROJECT_SOURCE_DIR}/include)
+
 
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
@@ -46,6 +47,9 @@ set(SCRIPTS
   optPhoton.mac
   vis.mac
   )
+
+
+
 
 foreach(_script ${SCRIPTS})
   configure_file(

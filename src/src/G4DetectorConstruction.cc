@@ -147,7 +147,7 @@
     //======================= Parametric volumes =======================
 
     // Mother volume for stack
-    auto motherSolid = new G4Box("Mother", VLAr_x*cm, VLAr_y*cm, VLAr_z*cm);
+    auto motherSolid = new G4Box("Mother", VLAr_x, VLAr_y, VLAr_z);
     auto motherLogic = new G4LogicalVolume(motherSolid, Vacuo, "Mother");
     new G4PVPlacement(0, {}, motherLogic, "Mother", WorldLV, false, 0);
 
@@ -166,7 +166,7 @@
                           motherLogic,
                           kUndefined,  // Not tied to a single axis
                           nTotal,
-                          new Full3DParameterisation(nY, nZ, Pixel_y, Pixel_z));
+                          new Full3DParameterisation(nY, nZ, Pixel_y*2, Pixel_z*2));
 
 
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PROPERTIES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

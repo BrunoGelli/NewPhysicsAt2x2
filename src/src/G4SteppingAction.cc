@@ -66,12 +66,19 @@ void G4SteppingAction::UserSteppingAction (const G4Step* aStep) {
     G4VPhysicalVolume * aPrePV = aPrePoint->GetPhysicalVolume();
     G4String PreVolName = "";
     if (aPrePV) PreVolName = aPrePV->GetName();
-    
+
+    G4int PreCopyNo = aPrePoint->GetTouchableHandle()->GetCopyNumber();
+
     //PostStep Info
     G4StepPoint * aPostPoint = aStep->GetPostStepPoint();
     G4VPhysicalVolume * aPostPV = aPostPoint->GetPhysicalVolume();
     G4String PostVolName = "";
     if (aPostPV) PostVolName= aPostPV->GetName();
+    G4int PostCopyNo = aPostPoint->GetTouchableHandle()->GetCopyNumber();
+
+
+
+
 
     G4int evtNb = G4EventManager::GetEventManager()->GetConstCurrentEvent()->GetEventID();
 
@@ -85,22 +92,17 @@ void G4SteppingAction::UserSteppingAction (const G4Step* aStep) {
     G4double        direction_y     =   direction.getY();
     G4double        direction_z     =   direction.getZ();
 
-    // if (parti=="opticalphoton")
-    // {
-    //     G4String creatorname = creator->GetProcessName();
-    //     if (creatorname=="Cerenkov")
-    //     {
-    //         cout << kinEnergy/eV << endl;
-    //     }
-    //     track->SetTrackStatus(fStopAndKill);
 
-    // }
 
-    //============================================================================
 
-    if (parti == "opticalphoton" && PreVolName == MUNDO_NOME && PostVolName == "pmt")//PreVolName == MUNDO_NOME && PostVolName == "v2")//&& track -> GetTrackID()!=1 && creator) 
+
+
+    if (parti != "mu-" )
     {
-
+        track->SetTrackStatus(fStopAndKill);
+    }
+    if (PreCopyNo != PostCopyNo && parti == "mu-" && PostVolName != "")
+    {
         analysisManager->FillNtupleIColumn(1,0,fEventNumber);
         analysisManager->FillNtupleDColumn(1,1,step_x/cm);
         analysisManager->FillNtupleDColumn(1,2,step_y/cm);
@@ -112,8 +114,28 @@ void G4SteppingAction::UserSteppingAction (const G4Step* aStep) {
         analysisManager->FillNtupleDColumn(1,8,direction_y);
         analysisManager->FillNtupleDColumn(1,9,direction_z);
         analysisManager->AddNtupleRow(1);
-        track->SetTrackStatus(fStopAndKill);
     }
+
+
+
+    //============================================================================
+
+    // if (parti == "opticalphoton" && PreVolName == MUNDO_NOME && PostVolName == "pmt")//PreVolName == MUNDO_NOME && PostVolName == "v2")//&& track -> GetTrackID()!=1 && creator) 
+    // {
+
+    //     analysisManager->FillNtupleIColumn(1,0,fEventNumber);
+    //     analysisManager->FillNtupleDColumn(1,1,step_x/cm);
+    //     analysisManager->FillNtupleDColumn(1,2,step_y/cm);
+    //     analysisManager->FillNtupleDColumn(1,3,step_z/cm);
+    //     analysisManager->FillNtupleDColumn(1,4,track->GetGlobalTime()/ns);
+    //     analysisManager->FillNtupleDColumn(1,5,kinEnergy/eV);
+    //     analysisManager->FillNtupleDColumn(1,6,acos(CosAngle)*180/3.1415);
+    //     analysisManager->FillNtupleDColumn(1,7,direction_x);
+    //     analysisManager->FillNtupleDColumn(1,8,direction_y);
+    //     analysisManager->FillNtupleDColumn(1,9,direction_z);
+    //     analysisManager->AddNtupleRow(1);
+    //     track->SetTrackStatus(fStopAndKill);
+    // }
        
 }
 

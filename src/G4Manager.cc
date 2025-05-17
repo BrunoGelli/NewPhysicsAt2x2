@@ -35,8 +35,10 @@ int main(int argc,char** argv) {
     // ============================================================================
     // Run manager
     // this first step sets the number of cores available.
-    G4MTRunManager* runManager = new G4MTRunManager;
-    runManager->SetNumberOfThreads(4);
+    // G4MTRunManager* runManager = new G4MTRunManager;
+    // runManager->SetNumberOfThreads(1);
+
+    G4RunManager* runManager = new G4RunManager;
     runManager->SetVerboseLevel(0);
 
     // declares the geometry of the simulation
