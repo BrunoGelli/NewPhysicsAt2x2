@@ -71,6 +71,8 @@ void G4RunAction::BeginOfRunAction(const G4Run* aRun) {
     analysisManager->CreateNtupleDColumn("dx");
     analysisManager->CreateNtupleDColumn("dy");
     analysisManager->CreateNtupleDColumn("dz");
+    analysisManager->CreateNtupleIColumn("module");
+
     analysisManager->FinishNtuple();
 
     // Second ntuple (detector config)

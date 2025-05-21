@@ -74,7 +74,8 @@ void G4SteppingAction::UserSteppingAction (const G4Step* aStep) {
 
     G4int PreCopyNo = touchable->GetCopyNumber();
 
-    G4ThreeVector centerPos = touchable->GetHistory()->GetTopTransform().Inverse().TransformPoint(G4ThreeVector(0,0,0));
+    // G4ThreeVector centerPos = touchable->GetHistory()->GetTopTransform().Inverse().TransformPoint(G4ThreeVector(0,0,0));
+    G4ThreeVector centerPos  = touchable->GetHistory()->GetTransform(0).TransformPoint(aPrePoint->GetPosition());
 
 
     G4double    PixelCenterX     =   centerPos.getX();
@@ -126,11 +127,31 @@ void G4SteppingAction::UserSteppingAction (const G4Step* aStep) {
         analysisManager->FillNtupleDColumn(1,7,PixelCenterX/cm);
         analysisManager->FillNtupleDColumn(1,8,PixelCenterY/cm);
         analysisManager->FillNtupleDColumn(1,9,PixelCenterZ/cm);
+        if (PreVolName == "Prisms_M0")
+        {
+            analysisManager->FillNtupleIColumn(1,10,0);
+        }
+        else if (PreVolName == "Prisms_M1")
+        {
+            analysisManager->FillNtupleIColumn(1,10,1);
+        }
+        else if (PreVolName == "Prisms_M2")
+        {
+            analysisManager->FillNtupleIColumn(1,10,2);
+        }
+        else if (PreVolName == "Prisms_M3")
+        {
+            analysisManager->FillNtupleIColumn(1,10,3);
+        }
+        else
+        {
+            analysisManager->FillNtupleIColumn(1,10,666);
+        }
         analysisManager->AddNtupleRow(1);
 
         accumulatedEnergy = 0.0;
     }
-    if (PreCopyNo == PostCopyNo && parti == "mu-" && PostVolName != "" && PreVolName != MUNDO_NOME)
+    if (PreCopyNo == PostCopyNo && parti == "mu-" && PostVolName != "" && PreVolName != MUNDO_NOME && PostVolName != MUNDO_NOME)
     {
         accumulatedEnergy = accumulatedEnergy + EDep;
     }

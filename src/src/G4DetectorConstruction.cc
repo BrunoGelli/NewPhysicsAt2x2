@@ -150,29 +150,90 @@
 
     //======================= Parametric volumes =======================
 
-    // Mother volume for stack
-    auto motherSolid = new G4Box("Mother", VLAr_x, VLAr_y, VLAr_z);
-    auto motherLogic = new G4LogicalVolume(motherSolid, Vacuo, "Mother");
-    new G4PVPlacement(0, {}, motherLogic, "Mother", WorldLV, false, 0);
+    G4int nY = VLAr_y/Pixel_y;
+    G4int nZ = VLAr_z/Pixel_z;
+    G4int nTotal = nY * nZ;
 
+    G4float gapsize  = 35*cm;
 
     // Slice volume (same dimensions for all copies)
     auto sliceSolid = new G4Box("Slice", Pixel_x, Pixel_y, Pixel_z);
     auto sliceLogic = new G4LogicalVolume(sliceSolid, LAr, "Slice");
 
+    // M0_Mother volume for stack
+    auto M0_motherSolid = new G4Box("M0_Mother", VLAr_x, VLAr_y, VLAr_z);
+    auto M0_motherLogic = new G4LogicalVolume(M0_motherSolid, Vacuo, "M0_Mother");
+    new G4PVPlacement(0, G4ThreeVector (gapsize,0,-gapsize), M0_motherLogic, "M0_Mother", WorldLV, false, 0);
 
-    G4int nY = VLAr_y/Pixel_y;
-    G4int nZ = VLAr_z/Pixel_z;
-    G4int nTotal = nY * nZ;
 
-    new G4PVParameterised("Prisms",
+    new G4PVParameterised("Prisms_M0",
                           sliceLogic,
-                          motherLogic,
+                          M0_motherLogic,
                           kUndefined,  // Not tied to a single axis
                           nTotal,
                           new Full3DParameterisation(nY, nZ, Pixel_y*2, Pixel_z*2));
 
 
+    // M1_Mother volume for stack
+    auto M1_motherSolid = new G4Box("M1_Mother", VLAr_x, VLAr_y, VLAr_z);
+    auto M1_motherLogic = new G4LogicalVolume(M0_motherSolid, Vacuo, "M1_Mother");
+    new G4PVPlacement(0, G4ThreeVector (-gapsize,0,-gapsize), M1_motherLogic, "M1_Mother", WorldLV, false, 0);
+
+
+    new G4PVParameterised("Prisms_M1",
+                          sliceLogic,
+                          M1_motherLogic,
+                          kUndefined,  // Not tied to a single axis
+                          nTotal,
+                          new Full3DParameterisation(nY, nZ, Pixel_y*2, Pixel_z*2));
+
+
+    // M0_Mother volume for stack
+    auto M2_motherSolid = new G4Box("M2_Mother", VLAr_x, VLAr_y, VLAr_z);
+    auto M2_motherLogic = new G4LogicalVolume(M2_motherSolid, Vacuo, "M2_Mother");
+    new G4PVPlacement(0, G4ThreeVector (gapsize,0,gapsize), M2_motherLogic, "M2_Mother", WorldLV, false, 0);
+
+
+    new G4PVParameterised("Prisms_M2",
+                          sliceLogic,
+                          M2_motherLogic,
+                          kUndefined,  // Not tied to a single axis
+                          nTotal,
+                          new Full3DParameterisation(nY, nZ, Pixel_y*2, Pixel_z*2));
+
+
+    // M0_Mother volume for stack
+    auto M3_motherSolid = new G4Box("M3_Mother", VLAr_x, VLAr_y, VLAr_z);
+    auto M3_motherLogic = new G4LogicalVolume(M3_motherSolid, Vacuo, "M3_Mother");
+    new G4PVPlacement(0, G4ThreeVector (-gapsize,0,gapsize), M3_motherLogic, "M3_Mother", WorldLV, false, 0);
+
+
+    new G4PVParameterised("Prisms_M3",
+                          sliceLogic,
+                          M3_motherLogic,
+                          kUndefined,  // Not tied to a single axis
+                          nTotal,
+                          new Full3DParameterisation(nY, nZ, Pixel_y*2, Pixel_z*2));
+
+
+
+
+
+        G4VisAttributes* grey  = new G4VisAttributes (G4Colour (0.5, 0.5, 0.5, 0.8));
+        G4VisAttributes* blue  = new G4VisAttributes (G4Colour (0.5, 0.5, 1.0, 0.8));
+        G4VisAttributes* red   = new G4VisAttributes (G4Colour (1.0, 0.5, 0.5, 0.8));
+        G4VisAttributes* green = new G4VisAttributes (G4Colour (0.5, 1.0, 0.5, 0.8));
+        grey->SetForceSolid (true);
+        blue->SetForceSolid (true);
+        red->SetForceSolid (true);
+        green->SetForceSolid (true);
+        M0_motherLogic->SetVisAttributes(grey);
+        M1_motherLogic->SetVisAttributes(blue);
+        M2_motherLogic->SetVisAttributes(red);
+        M3_motherLogic->SetVisAttributes(green);
+
         return WorldPV;
+
+
         
     }

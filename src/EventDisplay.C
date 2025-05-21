@@ -31,13 +31,30 @@ void EventDisplay() {
     int yBins = sizeY / pixelSizeY;
     int zBins = sizeZ / pixelSizeZ;
 
-    // Create histogram
-    TH2D *h = new TH2D("h", "Energy Deposition YZ;Z [cm];Y [cm];Edep [MeV]",
-                       zBins, zMin, zMax,
-                       yBins, yMin, yMax);
+    
+    // Create canvas with 2x2 pads
+    TCanvas *c = new TCanvas("c", "Event Display per Module", 1000, 1000);
+    c->Divide(2, 2);
 
-    // Fill histogram with energy deposition
-    t->Draw("dy:dz>>h", "energy", "COLZ");
+    // Loop over modules
+    for (int module = 0; module < 4; ++module) {
+        c->cd(module + 1);
+        
+        // Create unique histogram name per module
+        TString hname = Form("h%d", module);
+        TString htitle = Form("Module %d;Z [cm];Y [cm];Edep [MeV]", module);
+        TH2D *h = new TH2D(hname, htitle,
+                           zBins, zMin, zMax,
+                           yBins, yMin, yMax);
 
-    gPad->SetLogz(); // Optional
+        // Fill histogram for this module only
+        TString drawCmd = "dy:dz>>" + hname;
+        TString cut = Form("module == %d", module);
+        t->Draw(drawCmd, "energy*(" + cut + ")", "COLZ");
+
+        gPad->SetLogz();
+    }
+
+    c->Update();
+
 }

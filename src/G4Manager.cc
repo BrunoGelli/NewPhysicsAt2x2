@@ -40,7 +40,7 @@ int main(int argc,char** argv) {
   // };
 
     // sizeX, 
-    DetectorConfig GeoConf = {50,50,100,0.4,0.4};
+    DetectorConfig GeoConf = {60,140,60,5,5};
 
 
     // ============================================================================
