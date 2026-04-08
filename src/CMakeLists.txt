@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------
 # Setup the project
 #
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16...3.27)
 project(G4Sim)
 
 #----------------------------------------------------------------------------
@@ -59,11 +59,11 @@ endforeach()
 # For internal Geant4 use - but has no effect if you build this
 # example standalone
 #
-add_custom_target(G4Sim DEPENDS g4Sim)
+#add_custom_target(G4Sim DEPENDS g4Sim)
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
-install(TARGETS g4Sim DESTINATION bin)
+#install(TARGETS g4Sim DESTINATION bin)
 
 

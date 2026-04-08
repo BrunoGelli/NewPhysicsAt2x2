@@ -6,7 +6,7 @@
 
 #include "G4UserEventAction.hh"
 #include "globals.hh"
-
+#include "G4Event.hh"
 /// Event action class
 ///
 /// It defines data members to hold the energy deposit and track lengths
@@ -21,13 +21,15 @@ public:
     G4EventAction();
     virtual ~G4EventAction();
     
-    virtual void  BeginOfEventAction(const G4Event* event);
+    virtual void    BeginOfEventAction(const G4Event* event);
     virtual void    EndOfEventAction(const G4Event* event);
     
     
 public:
     G4int nOfReflections;
     G4int nOfDetections;
+
+    
 };
 
 

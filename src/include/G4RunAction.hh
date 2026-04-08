@@ -7,9 +7,10 @@
 #include "G4Run.hh"
 #include "G4RunManager.hh"
 #include "G4EventManager.hh"
-#include "g4root.hh"
+#include "G4RootAnalysisManager.hh"
+#include "DetectorConfig.hh"
 
-#include "G4NeutronHPManager.hh"
+#include "G4NeutronHPBuilder.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -19,9 +20,9 @@ class G4Run;
 class G4RunAction : public G4UserRunAction
 {
   public:
-    G4RunAction();
+    G4RunAction(const DetectorConfig& config);
    ~G4RunAction();
-  static G4NeutronHPManager *   GetInstance ();
+  //static G4NeutronHPManager *   GetInstance ();
 
 
   public:
@@ -34,6 +35,7 @@ class G4RunAction : public G4UserRunAction
 
   private:
     G4Timer* timer;
+    const DetectorConfig fConfig;
 
 };
 

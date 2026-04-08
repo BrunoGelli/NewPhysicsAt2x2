@@ -1,0 +1,35 @@
+class G4SteppingAction : public G4UserSteppingAction
+declares a new class called G4SteppingAction, which inherits from the Geant4 base class G4UserSteppingAction.
+
+
+
+G4SteppingAction::G4SteppingAction(...)
+The part before the :: — G4SteppingAction — is the class name.
+The part after the :: — also G4SteppingAction — is the constructor function, which has the same name as the class.
+This constructor is called automatically when an object of the class is created, to initialize its member variables and set up internal behavior.
+
+
+G4EventAction* eventAction;
+G4RunAction* runAction;
+G4PrimaryGeneratorAction* primaryGenAction;
+the * means that these are pointers to objects, not the objects themselves.
+G4EventAction* eventAction; → eventAction is a pointer to a G4EventAction object.
+| Expression        | Meaning                                               |
+| ----------------- | ----------------------------------------------------- |
+| `Type* x;`        | `x` is a pointer to `Type`                            |
+| `x = new Type();` | Allocate a `Type` object and store its address in `x` |
+| `*x`              | Dereference the pointer to access the object          |
+| `x->member`       | Access a member of the object pointed to by `x`       |
+
+
+pointer->member
+is exactly the same as:
+(*pointer).member
+
+
+| Class              | Purpose                                       |
+| ------------------ | --------------------------------------------- |
+| **RunAction**      | Open file, create histograms/ntuples          |
+| **EventAction**    | Collect and store data for each event         |
+| **SteppingAction** | Extract step data like position, energy, etc. |
+| **TrackingAction** | Track particle-level information              |

@@ -9,8 +9,8 @@
 // ============================================================================
 
 G4ActionInitialization::G4ActionInitialization
-                                (G4DetectorConstruction* detConstruction)
-: G4VUserActionInitialization(), fDetConstruction(detConstruction)
+                                (G4DetectorConstruction* detConstruction, DetectorConfig& config)
+: G4VUserActionInitialization(), fDetConstruction(detConstruction),fConfig(config)
 {;}
 
 // ============================================================================
@@ -21,7 +21,7 @@ G4ActionInitialization::~G4ActionInitialization() {;}
 
 void G4ActionInitialization::BuildForMaster() const {
     
-    SetUserAction(new G4RunAction);
+    SetUserAction(new G4RunAction(fConfig));
     
 }
 
@@ -29,15 +29,15 @@ void G4ActionInitialization::BuildForMaster() const {
 
 void G4ActionInitialization::Build() const {
     
-    G4EventAction* eventAction = new G4EventAction;
-    G4RunAction* runAction = new G4RunAction;
-    G4PrimaryGeneratorAction* PrimaryGeneratorAction = new G4PrimaryGeneratorAction;
-    
-    SetUserAction(new G4PrimaryGeneratorAction);
+    auto primaryGenAction = new G4PrimaryGeneratorAction();
+    auto runAction = new G4RunAction(fConfig);
+    auto eventAction = new G4EventAction();
+    auto steppingAction = new G4SteppingAction(eventAction, runAction, primaryGenAction);
+
+    SetUserAction(primaryGenAction);
     SetUserAction(runAction);
     SetUserAction(eventAction);
-    SetUserAction(new G4SteppingAction(eventAction, runAction, PrimaryGeneratorAction));
-    
-}  
+    SetUserAction(steppingAction);
+} 
 
 // ============================================================================

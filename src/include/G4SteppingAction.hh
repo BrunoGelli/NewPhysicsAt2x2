@@ -29,5 +29,6 @@ class G4SteppingAction : public G4UserSteppingAction {
     G4EventAction* fEventAction;
     G4RunAction* fRunAction;
     G4PrimaryGeneratorAction* fPrimaryGeneratorAction;
+
 };
 #endif

@@ -8,20 +8,21 @@
 
 #include "FTFP_BERT.hh"
 #include "G4OpticalPhysics.hh"
-#include "G4EmStandardPhysics_option1.hh"
+#include "G4EmStandardPhysics_option4.hh"
 
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
-
-
+#include "DetectorConfig.hh"
+#include "MyPhysicsList.hh"
+#include "G4SystemOfUnits.hh"
 // ============================================================================
 
 int main(int argc,char** argv) {
     
     // Seed the random number generator manually
-//    G4long myseed = 345354;
-    // G4long myseed = 3453540;
-    // CLHEP::HepRandom::setTheSeed(myseed);
+    G4long myseed = 3911243;
+    //G4long myseed = 3453540;
+    CLHEP::HepRandom::setTheSeed(myseed);
 
    
     G4double RIndex = 1;
@@ -31,28 +32,32 @@ int main(int argc,char** argv) {
     if (argc==3) {
       RIndex = atof(argv [2]);
     }
-
+    // sizeX, sizeY, sizeZ;
+    // pixelSizeY, pixelSizeZ;
+    DetectorConfig GeoConf = {60,140,60,.4,.4};
     // ============================================================================
     // Run manager
     // this first step sets the number of cores available.
-    G4MTRunManager* runManager = new G4MTRunManager;
-    runManager->SetNumberOfThreads(4);
+    G4RunManager* runManager = new G4RunManager;
+    //runManager->SetNumberOfThreads(1);
     runManager->SetVerboseLevel(0);
 
     // declares the geometry of the simulation
-    G4DetectorConstruction* detConstruction = new G4DetectorConstruction(RIndex);
+    G4DetectorConstruction* detConstruction = new G4DetectorConstruction(RIndex, GeoConf );
     runManager->SetUserInitialization(detConstruction);
 
     // declares the physics of the simulation
-    G4VModularPhysicsList* physicsList = new FTFP_BERT();
-    physicsList->ReplacePhysics(new G4EmStandardPhysics_option1());
-    G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
+    //G4VModularPhysicsList* physicsList = new FTFP_BERT();
+    //physicsList->ReplacePhysics(new G4EmStandardPhysics_option4());
+    //G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
 
-    physicsList->RegisterPhysics(opticalPhysics);
-    runManager->SetUserInitialization(physicsList);
+    //physicsList->RegisterPhysics(opticalPhysics);
+    //runManager->SetUserInitialization(physicsList);
+    runManager->SetUserInitialization(new MyPhysicsList());
+
 
     // declares the first action of the simulation
-    G4ActionInitialization* actionInitialization = new G4ActionInitialization(detConstruction);
+    G4ActionInitialization* actionInitialization = new G4ActionInitialization(detConstruction, GeoConf);
     runManager->SetUserInitialization(actionInitialization);
     
     // visualization manager

@@ -3,24 +3,25 @@
 
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
-
+#include "DetectorConfig.hh"
 class G4VPhysicalVolume;
 
 class G4DetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
-    G4DetectorConstruction(G4double RIndex);
+     G4DetectorConstruction(G4double RIndex, DetectorConfig& GeoConf);
     virtual ~G4DetectorConstruction();
 
   public:
     virtual G4VPhysicalVolume* Construct();
-
+  
+  
   private:
     // methods
     //
     void DefineMaterials();
     G4VPhysicalVolume* DefineVolumes();
-
+    DetectorConfig fConfig;
     // World
     G4double world_x, world_y, world_z;
 
